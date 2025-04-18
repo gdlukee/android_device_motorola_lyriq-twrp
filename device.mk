@@ -33,7 +33,8 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/emulated_storage.mk)
 # A/B
 PRODUCT_PACKAGES += \
     checkpoint_gc \
-    otapreopt_script
+    otapreopt_script \
+    cppreopts.sh \
 
 AB_OTA_POSTINSTALL_CONFIG += \
     RUN_POSTINSTALL_system=true \
@@ -56,6 +57,11 @@ PRODUCT_PACKAGES += \
     android.hardware.boot@1.2-mtkimpl \
     android.hardware.boot@1.2-mtkimpl.recovery
 
+PRODUCT_PACKAGES += \
+     android.hardware.health@2.0-service \
+     android.hardware.health@1.0.vendor \
+     android.hardware.health@2.0.vendor
+
 # Fastbootd
 PRODUCT_PACKAGES += \
     android.hardware.fastboot@1.1-impl.custom \
@@ -67,3 +73,5 @@ PRODUCT_PACKAGES += \
     update_engine_sideload \
     update_verifier
 
+# Copy modules for depmod
+PRODUCT_COPY_FILES += $(call find-copy-subdir-files,*.ko,$(DEVICE_PATH)/recovery/root/vendor/lib/modules,$(TARGET_COPY_OUT_RECOVERY)/root/vendor/lib/modules)
