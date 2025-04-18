@@ -100,7 +100,7 @@ TARGET_BOARD_PLATFORM_GPU := mali-g77
 TARGET_BOOTLOADER_BOARD_NAME := lyriq
 BOARD_HAS_MTK_HARDWARE := true
 TW_LOAD_VENDOR_BOOT_MODULES := true
-TW_LOAD_VENDOR_MODULES := $(shell echo \"$(shell ls $(DEVICE_PATH)/recovery/root/vendor/lib/modules)\")
+TW_LOAD_VENDOR_MODULES := $(DEVICE_PATH)/recovery/root/vendor/lib/modules
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
