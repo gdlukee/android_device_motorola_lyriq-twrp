@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
 # A/B
 AB_OTA_UPDATER := true
 AB_OTA_PARTITIONS += \
@@ -42,6 +41,10 @@ TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
 TARGET_2ND_CPU_VARIANT := generic
 TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a55
+
+# Apex
+DEXPREOPT_GENERATE_APEX_IMAGE := true
+
 
 # Building with minimal manifest
 ALLOW_MISSING_DEPENDENCIES := true
@@ -88,7 +91,14 @@ TARGET_KERNEL_ARCH := arm64
 TARGET_KERNEL_HEADER_ARCH := arm64
 TARGET_NO_KERNEL := true
 BOARD_KERNEL_SEPARATED_DTBO := true
+TARGET_FORCE_PREBUILT_KERNEL := true
+ifeq ($(TARGET_FORCE_PREBUILT_KERNEL),true)
+TARGET_PREBUILT_KERNEL := $(DEVICE_PATH)/prebuilt/kernel
+TARGET_KERNEL_CONFIG := lyriq_defconfig
+TARGET_KERNEL_SOURCE := kernel/motorola/lyriq
 TARGET_PREBUILT_DTB := $(DEVICE_PATH)/prebuilt/dtb.img
+BOARD_INCLUDE_DTB_IN_BOOTIMG := 
+endif
 
 # Assert
 TARGET_OTA_ASSERT_DEVICE := lyriq
@@ -100,7 +110,7 @@ TARGET_BOARD_PLATFORM_GPU := mali-g77
 TARGET_BOOTLOADER_BOARD_NAME := lyriq
 BOARD_HAS_MTK_HARDWARE := true
 TW_LOAD_VENDOR_BOOT_MODULES := true
-TW_LOAD_VENDOR_MODULES := $(DEVICE_PATH)/recovery/root/vendor/lib/modules
+TW_LOAD_VENDOR_MODULES := $(shell echo \"$(shell ls $(DEVICE_PATH)/recovery/root/vendor/lib/modules)\")
 
 # Metadata
 BOARD_USES_METADATA_PARTITION := true
@@ -170,7 +180,6 @@ TWRP_INCLUDE_LOGCAT := true
 TW_INCLUDE_RESETPROP := true
 TW_INCLUDE_REPACKTOOLS := true
 TW_INCLUDE_LIBRESETPROP := true
-TW_EXCLUDE_APEX := true
 TW_INCLUDE_NTFS_3G := true
 TARGET_USES_MKE2FS := true
 TW_INCLUDE_FUSE_EXFAT := true
